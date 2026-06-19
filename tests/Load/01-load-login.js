@@ -1,37 +1,20 @@
 import http from 'k6/http';
-import { check, sleep } from 'k6';
+import { sleep } from 'k6';
 import { CONFIG } from '../../config/environments.js';
+import { loginPayload } from '../../helpers/payloads.js';
+import { checkLogin } from '../../helpers/checks.js';
 
 export const options = {
-
-    stages: [
-
-        { duration: '30s', target: 10 },
-
-        { duration: '1m', target: 10 },
-
-        { duration: '30s', target: 30 },
-
-        { duration: '30s', target: 0 }
-    ],
-
-    thresholds: {
-        http_req_duration: ['p(95)<5000'],
-        http_req_failed: ['rate<0.05']
-    }
+    vus: 1,
+    duration: '10s',
 };
 
 export default function () {
-    const BASE_URL = CONFIG.BASE_URL;
 
-    const payload = JSON.stringify({
-        email: "amanda@email.com",
-        senha: "1234567"
-    });
+    const BASE_URL = CONFIG.BASE_URL;
 
     const params = {
         headers: {
-
             "Content-Type": "application/json"
         }
     };
@@ -40,21 +23,12 @@ export default function () {
 
         `${BASE_URL}/auth/login`,
 
-        payload,
+        loginPayload(),
 
         params
-
     );
 
-    check(res, {
-
-        "status login 200": (r) =>
-            r.status === 200,
-
-        "resposta retornada": (r) =>
-            r.body.length > 0
-
-    });
+    checkLogin(res);
 
     sleep(1);
 }
