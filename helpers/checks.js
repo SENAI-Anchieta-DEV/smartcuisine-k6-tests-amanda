@@ -32,3 +32,14 @@ export function checkCadastro(response) {
     });
 
 }
+
+export function checkDashboard(response) {
+
+    return check(response, {
+
+        "acesso ao sistema":
+            (r) => r.status === 200
+
+    });
+
+}

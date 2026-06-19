@@ -1,6 +1,8 @@
 import http from 'k6/http';
-import { check, sleep } from 'k6';
+import { sleep } from 'k6';
 import { CONFIG } from '../../config/environments.js';
+import { cadastroPayload } from '../../helpers/payloads.js';
+import { checkCadastro } from '../../helpers/checks.js';
 
 export const options = {
 
@@ -21,17 +23,15 @@ export const options = {
 };
 
 export default function () {
+
     const BASE_URL = CONFIG.BASE_URL;
 
-    const payload = JSON.stringify({
-        nome: "Usuario Spike k6",
-        email: `spike${Date.now()}@teste.com`,
-        senha: "1234567"
-    });
-
     const res = http.post(
+
         `${BASE_URL}/auth/cadastro`,
-        payload,
+
+        cadastroPayload(),
+
         {
             headers: {
                 "Content-Type": "application/json"
@@ -39,10 +39,7 @@ export default function () {
         }
     );
 
-    check(res, {
-        "cadastro respondeu":
-            (r) => r.status === 201
-    });
+    checkCadastro(res);
 
     sleep(1);
 }

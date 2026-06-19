@@ -1,6 +1,8 @@
 import http from 'k6/http';
-import { check, sleep } from 'k6';
+import { sleep } from 'k6';
 import { CONFIG } from '../../config/environments.js';
+import { loginPayload } from '../../helpers/payloads.js';
+import { checkLogin } from '../../helpers/checks.js';
 
 export const options = {
 
@@ -24,18 +26,15 @@ export const options = {
 };
 
 export default function () {
-    const BASE_URL = CONFIG.BASE_URL;
 
-    const payload = JSON.stringify({
-        email: "amanda@email.com",
-        senha: "1234567"
-    });
+    const BASE_URL = CONFIG.BASE_URL;
 
     const res = http.post(
 
         `${BASE_URL}/auth/login`,
 
-        payload,
+        loginPayload(),
+
         {
             headers: {
                 "Content-Type": "application/json"
@@ -43,10 +42,7 @@ export default function () {
         }
     );
 
-    check(res, {
-        "login respondeu":
-            (r) => r.status === 200
-    });
+    checkLogin(res);
 
-    sleep(1);
+    sleep(1)
 }

@@ -1,0 +1,26 @@
+{
+  "name": "smartcuisine-k6-tests",
+  "version": "1.0.0",
+  "description": "Repositório destinado aos testes de performance da aplicação **SmartCuisine**, utilizando a ferramenta **k6**.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmandaRosa81/smartcuisine-k6-tests-amanda.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/AmandaRosa81/smartcuisine-k6-tests-amanda/issues"
+  },
+  "homepage": "https://github.com/AmandaRosa81/smartcuisine-k6-tests-amanda#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.61.0",
+    "@types/node": "^26.0.0"
+  }
+}
